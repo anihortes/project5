@@ -5,23 +5,43 @@
 #ifndef PROJECT5_HDTCOUNT_H
 #define PROJECT5_HDTCOUNT_H
 
-class Board{
+int hdtCount(int dim_x, int dim_y,
+             int forbid1_x, int forbid1_y,
+             int forbid2_x, int forbid2_y);
+
+#include <utility> // std::pair, std::make_pair
+class Domino{
 public:
-    Board(): _dim_x(0), _dim_y(0){};
+    Domino(): _head(0,0), _tail(0,1){};
 
-    Board(int dim_x, int dim_y) : _dim_x(dim_x), _dim_y(dim_y){};
+    Domino(std::pair<int,int> & head, std::pair<int,int> & tail)
+            : _head(head), _tail(tail){};
 
-    int getX(){
-        return _dim_x;
+    Domino(int headX, int headY, int tailX, int tailY)
+            : _head(headX, headY), _tail(tailX,tailY){};
+
+    std::pair<int,int> setHead(std::pair<int,int> head) {
+        _head.first = head.first;
+        _head.second = head.second;
     }
 
-    int getY(){
-        return _dim_y;
+    std::pair<int,int> setTail(std::pair<int,int> tail) {
+        _tail.first = _tail.first;
+        _tail.second = _tail.second;
+    }
+
+    [[nodiscard]] std::pair<int,int> getHead() const{
+        return _head;
+    }
+
+    [[nodiscard]] std::pair<int,int> getTail() const{
+        return _tail;
     }
 
 private:
-    int _dim_x;
-    int _dim_y;
+    std::pair<int,int> _head;
+    std::pair<int,int> _tail;
+
 };
 
 #endif //PROJECT5_HDTCOUNT_H
