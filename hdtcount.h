@@ -20,17 +20,17 @@ public:
     Domino(int headX, int headY, int tailX, int tailY)
             : _head(headX, headY), _tail(tailX,tailY){};
 
-    std::pair<int,int> setHead(std::pair<int,int> head) {
+    void setHead(std::pair<int,int> head) {
         _head.first = head.first;
         _head.second = head.second;
     }
 
-    std::pair<int,int> setTail(std::pair<int,int> tail) {
-        _tail.first = _tail.first;
-        _tail.second = _tail.second;
+    void setTail(std::pair<int,int> tail) {
+        _tail.first = tail.first;
+        _tail.second = tail.second;
     }
 
-    [[nodiscard]] std::pair<int,int> getHead() const{
+    std::pair<int,int> getHead() const{
         return _head;
     }
 
