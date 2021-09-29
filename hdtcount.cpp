@@ -15,52 +15,62 @@ using std::endl;
 bool checkDomino(const vector<Domino> & board,
                  const Domino & domino,
                  int dim_x, int dim_y){
-
+    //cout <<"BOOL CHECK\n";
     // error handle check
     if(board.empty()) {
         //cout << "test1\n";
         return false;
     }
-
     // test for out of bounds
-    // cout << "dom head x: " << domino.getHead().first << " / x: " << dim_x << endl;
-    if ((domino.getHead().first > dim_x-1)
-        || (domino.getHead().second > dim_y-1)) {
+     //cout << "dom head x: " << domino.getHead().first << " / x: " << dim_x << endl;
+    if ((domino.getHead().first >= dim_x)
+        || (domino.getHead().second >= dim_y)) {
         //cout << "test2\n";
         return false;
     }
     //cout << "dom tail x: " << domino.getTail().first << " / x: " << dim_x << endl;
-
-    if ((domino.getTail().first > dim_x-1)
-        || (domino.getTail().second > dim_y-1)) {
+    if ((domino.getTail().first >= dim_x)
+        || (domino.getTail().second >= dim_y)) {
         //cout << "test2.0\n";
         return false;
     }
-
-
         // check for currently placed domino's
     else {
         //cout << "test3\n";
         //cout << board.size() << endl;
         for (auto i = 0; i < board.size() - 1; ++i) {
-
+/*              cout << "test5\n";
+            cout << "---------\nboard i: {" << board[i].getHead().first << ", " << board[i].getHead().second << "} | {"
+                 << board[i].getTail().first << ", " << board[i].getTail().second << "}\n";
+            cout << "domino: {" << domino.getHead().first << ", " << domino.getHead().second << "} | {"
+                 << domino.getTail().first << ", " << domino.getTail().second << "}\n";
+            cout << "board i+1: {" << board[i+1].getHead().first << ", " << board[i+1].getHead().second << "} | {"
+                 << board[i+1].getTail().first << ", " << board[i+1].getTail().second << "}\n";*/
+            /*if(i > 1) {
+                if (((domino.getHead() < board[i].getHead()) && (domino.getTail() < board[i].getTail()))
+                    || ((domino.getHead() < board[i+1].getHead()) && (domino.getTail() < board[i + 1].getTail()))){
+                    cout << "test failure\n";
+                    return false;
+                }
+            }*/
             if ((domino.getHead() == board[i].getHead()) || (domino.getHead() == board[i].getTail())
                 || (domino.getTail() == board[i].getHead()) || (domino.getTail() == board[i].getTail())) {
                 //cout << "test6\n";
-
                 return false;
             }
-
+/*            cout << "---------\nboard i: {" << board[i].getHead().first << ", " << board[i].getHead().second << "} | {"
+                 << board[i].getTail().first << ", " << board[i].getTail().second << "}\n";
+            cout << "domino: {" << domino.getHead().first << ", " << domino.getHead().second << "} | {"
+                 << domino.getTail().first << ", " << domino.getTail().second << "}\n";
+            cout << "board i+1: {" << board[i+1].getHead().first << ", " << board[i+1].getHead().second << "} | {"
+                 << board[i+1].getTail().first << ", " << board[i+1].getTail().second << "}\n";*/
             if ((domino.getHead() == board[i+1].getHead()) || (domino.getHead() == board[i+1].getTail())
                 || (domino.getTail() == board[i+1].getHead()) || (domino.getTail() == board[i+1].getTail())) {
-                // cout << "test7\n";
-
+                 //cout << "test7\n";
                 return false;
             }
         }
     }
-
-
     if (board.back().getTail() == domino.getHead()
         || board.back().getTail() == domino.getTail()) {
         //cout << "test9\n";
@@ -70,57 +80,107 @@ bool checkDomino(const vector<Domino> & board,
     return true;
 }
 
-int hdtCount_recurse(vector<Domino> & board, int dim_x, int dim_y, pair<int,int> forbid1,
-                     pair<int,int> forbid2, int & totalSquares, int coll1, int row1) {
+int hdtCount_recurse(vector<Domino> board, int dim_x, int dim_y, int coll1, int roww) {
+    //cout << "x: " << dim_x << " | y: " << dim_y << endl;
+    int row1 = roww;
+    //cout << "yo new recurse\n";
     pair<int, int> head;
     pair<int, int> tail;
+
     // BASE CASE
-    if (totalSquares == 0) {
-        // reset number of tiles to count
-        for(auto i = 1; i < board.size(); ++i) {
-            totalSquares = totalSquares + 2;
-        }
+    if (dim_y*dim_x == 2*board.size() - 2) {
+/*        for (auto i = 0; i < board.size(); ++i) {
+            cout << "board i: {" << board[i].getHead().first << ", " << board[i].getHead().second << "} | {"
+                 << board[i].getTail().first << ", " << board[i].getTail().second << "}\n";}
+        cout << "---------------------------------------NICE----------------------------------\n";*/
         return 1;
     }
 
     // RECURSIVE CASE
     int total = 0;
-    head = make_pair(row1, coll1);
-    tail = make_pair(head.first + 1, head.second);
-    Domino dominoA(head, tail);
-    Domino dominoB(head, tail);
-    for (int col = coll1; col < dim_y; ++col) {
-        for (int row = row1; row < dim_x; ++row) {
-            for(auto i = 0; i < board.size(); ++i) {
-                head.first = row;
-                head.second = col;
-                tail = make_pair(head.first + 1, head.second);
-                dominoA.setHead(head);
-                dominoA.setTail(tail);
-                tail = make_pair(head.first, head.second + 1);
-                dominoB.setHead(head);
-                dominoB.setTail(tail);
+    Domino dominoA;
+    Domino dominoB;
 
-                if (checkDomino(board, dominoA, dim_x, dim_y)) {
-                    board.push_back(dominoA);
-                    //auto temp = board;
-                    totalSquares = totalSquares - 2;
-                    total += hdtCount_recurse(board, dim_x, dim_y, forbid1, forbid2,
-                                              totalSquares, dominoA.getHead().second, dominoA.getHead().first);
-                    board.pop_back();
+    bool xCheck = true;
+    int row;
+    int col;
+    for(col = coll1; col < dim_y;++col) {
+        for (row = row1; row < dim_x; ++row) {
+            if(col > 1 && dim_x ==1){
+                pair<int,int> test = make_pair(row,col-1);
+                int count = 0;
+                for(auto i = 0; i < board.size();++i){
+                    if(test == board[i].getHead() || test == board[i].getTail())
+                        count++;
                 }
-                
-                if (checkDomino(board, dominoB, dim_x, dim_y)) {
-                    board.push_back(dominoB);
-                    // auto tempB = board;
-                    totalSquares = totalSquares - 2;
-                    total += hdtCount_recurse(board, dim_x, dim_y, forbid1, forbid2,
-                                              totalSquares, dominoB.getHead().second, dominoB.getHead().first);
-                    board.pop_back();
-                }
+                if(count == 0 )
+                    return total;
             }
+            else if (row > 1 && dim_y ==1){
+                pair<int,int> test = make_pair(row-2,col);
+                int count = 0;
+                for(auto i = 0; i < board.size();++i){
+                    if(test == board[i].getHead() || test == board[i].getTail())
+                        count++;
+                }
+                if(count == 0 )
+                    return total;
+            }
+            //cout << "x = " << row << " and y = " << col << endl;
+
+            head.first = row;
+            head.second = col;
+            tail = make_pair(head.first + 1, head.second);
+            dominoA.setHead(head);
+            dominoA.setTail(tail);
+            tail = make_pair(head.first, head.second + 1);
+            dominoB.setHead(head);
+            dominoB.setTail(tail);
+/*            for (auto i = 0; i < board.size(); ++i) {
+                cout << "board i: {" << board[i].getHead().first << ", " << board[i].getHead().second << "} | {"
+                     << board[i].getTail().first << ", " << board[i].getTail().second << "}\n";}
+            cout << "dominoA: {" << dominoA.getHead().first << ", " << dominoA.getHead().second << "} | {"
+                 << dominoA.getTail().first << ", " << dominoA.getTail().second << "}\n----------------\n";*/
+            if (checkDomino(board, dominoA, dim_x, dim_y)) {
+                //cout << "!!!!!!!!!! DOM A MADE IT !!!!!!!!!!\n";
+                board.push_back(dominoA);
+                total += hdtCount_recurse(board, dim_x, dim_y,
+                                          dominoA.getHead().second, dominoA.getHead().first);
+/*                for (auto i = 0; i < board.size(); ++i) {
+                    cout << "board i: {" << board[i].getHead().first << ", " << board[i].getHead().second << "} | {"
+                         << board[i].getTail().first << ", " << board[i].getTail().second << "}\n";}*/
+                board.pop_back();
+                //cout << " ````````````````` popping back `````````````````````````\n";
+            }
+/*            for (auto i = 0; i < board.size(); ++i) {
+                cout << "board i: {" << board[i].getHead().first << ", " << board[i].getHead().second << "} | {"
+                     << board[i].getTail().first << ", " << board[i].getTail().second << "}\n";}
+            cout << "dominoB: {" << dominoB.getHead().first << ", " << dominoB.getHead().second << "} | {"
+                 << dominoB.getTail().first << ", " << dominoB.getTail().second << "}\n";*/
+            if (checkDomino(board, dominoB, dim_x, dim_y)) {
+                //cout << "!!!!!!!!!! DOM B MADE IT !!!!!!!!!!\n";
+                board.push_back(dominoB);
+                total += hdtCount_recurse(board, dim_x, dim_y,
+                                          dominoB.getHead().second, dominoB.getHead().first);
+ /*               cout << "total: " << total << endl;
+                for (auto i = 0; i < board.size(); ++i) {
+                    cout << "board i: {" << board[i].getHead().first << ", " << board[i].getHead().second << "} | {"
+                         << board[i].getTail().first << ", " << board[i].getTail().second << "}\n";}
+                cout << " ````````````````` popping back `````````````````````````\n";*/
+                board.pop_back();
+            }
+            //cout << "reminder that: x = " << row << " and y = " << col << endl;
+
+        }
+        //cout << "row: " << row << " : dim_x: " << dim_x << endl;
+        if(xCheck && (row==dim_x) && (row1 > 0)){
+            //cout << "fat check\n";
+            xCheck = false;
+            row1 = 0;
+
         }
     }
+    //cout << "returning total: " << total << endl;
     return total;
 };
 
@@ -137,6 +197,6 @@ int hdtCount(int dim_x, int dim_y,
     Domino forbidden2(forbid1,forbid2);
     board.push_back(forbidden1);
     board.push_back(forbidden2);
-    int totalSquares = (dim_x*dim_y)-2;
-    return hdtCount_recurse(board, dim_x, dim_y, forbid1, forbid2, totalSquares, 0 ,0);
+    cout << "x: " << dim_x << " y: " << dim_y<<endl;
+    return hdtCount_recurse(board, dim_x, dim_y, 0 ,0);
 }
