@@ -43,8 +43,8 @@ int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & coun
         return 1;
     }
 
-    int tempX = 0;
-    int tempY = 0;
+    int emptyXCheck = 0;
+    int emptyYCheck = 0;
     bool checkEmptySqaures = true;
     //RECURSIVE CASE
     int x, y;
@@ -52,10 +52,11 @@ int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & coun
         for(x=0; x<dim_x; ++x){
             // checks if previous square is 0
             if(checkEmptySqaures){
-                if(board[emptyXCheck][emptyXCheck]==0){
+                if(board[emptyXCheck][emptyYCheck]==0){
                     return 0;
                 }
             }
+
             if(board[x][y]==0) {
                 if (checkDomino(board, x + 1, y)) {
                     board[x][y] = 1;
@@ -77,9 +78,10 @@ int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & coun
                     board[x][y + 1] = 0;
                 }
             }
+            // look at previous square
             checkEmptySqaures = false;
             emptyXCheck = x;
-            emptyXCheck = y;
+            emptyYCheck = y;
         }
     }
     return total;
