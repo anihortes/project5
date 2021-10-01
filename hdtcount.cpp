@@ -64,9 +64,9 @@ int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & squa
                 if (checkDomino(board, x + 1, y)) {
                     board[x][y] = 1;
                     board[x + 1][y] = 1;
-                    coveredSquares -= 2;
-                    total += hdtCount_recurse(board, dim_x, dim_y, coveredSquares);
-                    coveredSquares += 2;
+                    squaresCovered -= 2;
+                    total += hdtCount_recurse(board, dim_x, dim_y, squaresCovered);
+                    squaresCovered += 2;
                     board[x][y] = 0;
                     board[x + 1][y] = 0;
                 }
@@ -75,9 +75,9 @@ int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & squa
                 if (checkDomino(board, x, y + 1)) {
                     board[x][y] = 1;
                     board[x][y + 1] = 1;
-                    coveredSquares -= 2;
-                    total += hdtCount_recurse(board, dim_x, dim_y, coveredSquares);
-                    coveredSquares += 2;
+                    squaresCovered -= 2;
+                    total += hdtCount_recurse(board, dim_x, dim_y, squaresCovered);
+                    squaresCovered += 2;
                     board[x][y] = 0;
                     board[x][y + 1] = 0;
                 }
@@ -103,7 +103,7 @@ int hdtCount(int dim_x, int dim_y, int forbid1_x, int forbid1_y,
 
     board[forbid1_x][forbid1_y] = 1;
     board[forbid2_x][forbid2_y] = 1;
-    int coveredSquares = dim_x*dim_y-2;
+    int squaresCovered = dim_x*dim_y-2;
     //cout << "dim_x: " << dim_x << " dim_y: " << dim_y << endl;
-    return hdtCount_recurse(board, dim_x, dim_y, coveredSquares);
+    return hdtCount_recurse(board, dim_x, dim_y, squaresCovered);
 }
