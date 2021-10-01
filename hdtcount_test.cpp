@@ -256,6 +256,7 @@ TEST_CASE( "Slide Examples" )
     }
 }
 */
+/*
 
 TEST_CASE( "Function return types are correct" )
 {
@@ -268,7 +269,10 @@ TEST_CASE( "Function return types are correct" )
     }
 }
 
+*/
 
+
+/*
 
 TEST_CASE( "1 x n boards" )
 {
@@ -286,6 +290,7 @@ TEST_CASE( "1 x n boards" )
         REQUIRE( hdtCount(   1,   4,  0,  2,  0,  3) ==     1 );
     }
 
+
     SUBCASE( "w == 1, h < 10" )
     {
         REQUIRE( hdtCount(   1,   5,  0,  0,  0,  4) ==     0 );
@@ -300,7 +305,6 @@ TEST_CASE( "1 x n boards" )
         REQUIRE( hdtCount(   1,   8,  0,  2,  0,  3) ==     1 );
         REQUIRE( hdtCount(   1,   9,  0,  2,  0,  3) ==     0 );
     }
-
     SUBCASE( "w == 1, 10 <= h <= 1000" )
     {
         REQUIRE( hdtCount(   1,  10,  0,  2,  0,  3) ==     1 );
@@ -324,7 +328,9 @@ TEST_CASE( "1 x n boards" )
         REQUIRE( hdtCount(   1,1000,  0, 37,  0,927) ==     0 );
     }
 }
+*/
 
+/*
 
 
 TEST_CASE( "n x 1 boards" )
@@ -382,18 +388,18 @@ REQUIRE( hdtCount(1000,   1,  0,  0,  1,  0) ==     1 );
         REQUIRE( hdtCount(1000,   1, 37,  0,927,  0) ==     0 );
     }
 }
-
+*/
 
 
 TEST_CASE( "2 x n boards" )
 {
     SUBCASE( "w == 2, 1 <= h <= 20, forbidden (0,0), (1,0)" )
     {
-        REQUIRE( hdtCount(   2,   1,  0,  0,  1,  0) ==     1 );
+        /*REQUIRE( hdtCount(   2,   1,  0,  0,  1,  0) ==     1 );
         REQUIRE( hdtCount(   2,   2,  0,  0,  1,  0) ==     1 );
-        REQUIRE( hdtCount(   2,   3,  0,  0,  1,  0) ==     2 );
+        REQUIRE( hdtCount(   2,   3,  0,  0,  1,  0) ==     2 );*/
         REQUIRE( hdtCount(   2,   4,  0,  0,  1,  0) ==     3 );
-        REQUIRE( hdtCount(   2,   5,  0,  0,  1,  0) ==     5 );
+        /*REQUIRE( hdtCount(   2,   5,  0,  0,  1,  0) ==     5 );
         REQUIRE( hdtCount(   2,   6,  0,  0,  1,  0) ==     8 );
         REQUIRE( hdtCount(   2,   7,  0,  0,  1,  0) ==    13 );
         REQUIRE( hdtCount(   2,   8,  0,  0,  1,  0) ==    21 );
@@ -403,14 +409,14 @@ TEST_CASE( "2 x n boards" )
         REQUIRE( hdtCount(   2,  12,  0,  0,  1,  0) ==   144 );
         REQUIRE( hdtCount(   2,  13,  0,  0,  1,  0) ==   233 );
         REQUIRE( hdtCount(   2,  14,  0,  0,  1,  0) ==   377 );
-/*        REQUIRE( hdtCount(   2,  15,  0,  0,  1,  0) ==   610 );
+        REQUIRE( hdtCount(   2,  15,  0,  0,  1,  0) ==   610 );
         REQUIRE( hdtCount(   2,  16,  0,  0,  1,  0) ==   987 );
         REQUIRE( hdtCount(   2,  17,  0,  0,  1,  0) ==  1597 );
         REQUIRE( hdtCount(   2,  18,  0,  0,  1,  0) ==  2584 );
         REQUIRE( hdtCount(   2,  19,  0,  0,  1,  0) ==  4181 );
         REQUIRE( hdtCount(   2,  20,  0,  0,  1,  0) ==  6765 );
         REQUIRE( hdtCount(   2,  21,  0,  0,  1,  0) == 10946 );*/
-    }
+    }/*
     SUBCASE( "w == 2, 1 <= h <= 20, other forbidden" )
     {
         REQUIRE( hdtCount(   2,   2,  0,  1,  1,  0) ==     0 );
@@ -421,13 +427,13 @@ TEST_CASE( "2 x n boards" )
         REQUIRE( hdtCount(   2,   6,  0,  2,  1,  2) ==     6 );
         REQUIRE( hdtCount(   2,   7,  0,  3,  1,  3) ==     9 );
         REQUIRE( hdtCount(   2,  19,  0,  4,  1,  5) ==     0 );
-        //REQUIRE( hdtCount(   2,  20,  0,  6,  1,  6) ==  4901 );
-    }
+        REQUIRE( hdtCount(   2,  20,  0,  6,  1,  6) ==  4901 );
+    }*/
 }
 
+
+
 /*
-
-
 TEST_CASE( "n x 2 boards" )
 {
     SUBCASE( "1 <= w <= 21, h == 2, forbidden (0,0), (0,1)" )
@@ -519,8 +525,7 @@ TEST_CASE( "Slide Examples" )
         REQUIRE( hdtCount(   4,   1,  1,  0,  3,  0) ==     0 );
         REQUIRE( hdtCount(   8,   5,  6,  4,  7,  4) ==  8291 );
     }
-}
-*/
+}*/
 
 
 // *********************************************************************
