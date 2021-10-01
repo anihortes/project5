@@ -30,12 +30,12 @@ bool checkDomino(const vector<vector<int>> & board,
 
 }
 
-int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & count) {
+int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & squaresCovered) {
     int total = 0;
-    //count -= 2;
+    //squaresCovered -= 2;
 
     // BASE CASES
-    if(count == 0) {
+    if(squaresCovered == 0) {
         return 1;
     }
 
@@ -45,41 +45,46 @@ int hdtCount_recurse(vector<vector<int>> board, int dim_x, int dim_y, int & coun
 
     int emptyXCheck = 0;
     int emptyYCheck = 0;
-    bool checkEmptySqaures = true;
+    bool checkEmptySquares = true;
+
     //RECURSIVE CASE
     int x, y;
     for(y=0; y<dim_y;++y){
         for(x=0; x<dim_x; ++x){
+
             // checks if previous square is 0
-            if(checkEmptySqaures){
+            if(checkEmptySquares){
                 if(board[emptyXCheck][emptyYCheck]==0){
                     return 0;
                 }
             }
 
             if(board[x][y]==0) {
+                // horizontal
                 if (checkDomino(board, x + 1, y)) {
                     board[x][y] = 1;
                     board[x + 1][y] = 1;
-                    count -= 2;
-                    total += hdtCount_recurse(board, dim_x, dim_y, count);
-                    count += 2;
+                    coveredSquares -= 2;
+                    total += hdtCount_recurse(board, dim_x, dim_y, coveredSquares);
+                    coveredSquares += 2;
                     board[x][y] = 0;
                     board[x + 1][y] = 0;
                 }
 
+                // vertical
                 if (checkDomino(board, x, y + 1)) {
                     board[x][y] = 1;
                     board[x][y + 1] = 1;
-                    count -= 2;
-                    total += hdtCount_recurse(board, dim_x, dim_y, count);
-                    count += 2;
+                    coveredSquares -= 2;
+                    total += hdtCount_recurse(board, dim_x, dim_y, coveredSquares);
+                    coveredSquares += 2;
                     board[x][y] = 0;
                     board[x][y + 1] = 0;
                 }
             }
+
             // look at previous square
-            checkEmptySqaures = false;
+            checkEmptySquares = false;
             emptyXCheck = x;
             emptyYCheck = y;
         }
@@ -98,7 +103,7 @@ int hdtCount(int dim_x, int dim_y, int forbid1_x, int forbid1_y,
 
     board[forbid1_x][forbid1_y] = 1;
     board[forbid2_x][forbid2_y] = 1;
-    int count = dim_x*dim_y-2;
+    int coveredSquares = dim_x*dim_y-2;
     //cout << "dim_x: " << dim_x << " dim_y: " << dim_y << endl;
-    return hdtCount_recurse(board, dim_x, dim_y, count);
+    return hdtCount_recurse(board, dim_x, dim_y, coveredSquares);
 }
